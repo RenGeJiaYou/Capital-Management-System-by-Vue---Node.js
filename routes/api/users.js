@@ -72,7 +72,7 @@ router.post("/login", (req, res) => {
           };
           jwt.sign(rule, key, { expiresIn: 8 * 60 * 60 }, (err, token) => {
             if (err) throw err;
-            res.json({ msg: "success", jwt: "Bearer " + token });
+            res.json({ msg: "登陆成功", jwt: "Bearer " + token });
           });
         } else {
           return res.status(400).json({ msg: "密码错误" });
