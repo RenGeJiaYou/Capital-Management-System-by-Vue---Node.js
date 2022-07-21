@@ -35,5 +35,5 @@ app.use("/api/user", users); //"/api/user" 是一个路由组
 app.use("/api/profile", profiles);
 
 app.listen(port, () => {
-  console.log("serve is run");
+  console.log("backend serve is run");
 });

@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Index from "../views/index.vue";
 import Register from "../views/register.vue";
 import Login from "../views/login"; //加不加 .vue后缀都一样,以此为例
+import Home from "../views/home";
 import NotFoundPage from "../views/404.vue";
 
 Vue.use(VueRouter);
@@ -26,6 +27,11 @@ const routes = [
     path: "/login",
     name: "login",
     component: Login,
+  },
+  {
+    path: "/home",
+    name: "home",
+    component: Home,
   },
   {
     path: "*", //* 表示未访问到文件

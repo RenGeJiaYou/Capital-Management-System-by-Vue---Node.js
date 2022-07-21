@@ -36,6 +36,13 @@
               >登录</el-button
             >
           </el-form-item>
+
+          <div class="tiparea">
+            <p>
+              还没有注册?点击
+              <router-link to="/register">这里</router-link>
+            </p>
+          </div>
         </el-form>
       </div>
     </section>
@@ -88,17 +95,13 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          //随后"/api" -> "http://localhost:3000/api/"
-          //关于第二个参数 this.registerForm:
-          //作为一个JS 对象,将在请求时自动转换为 JSON 格式并放在请求报文的 body中
           axios.post("/api/user/login", this.loginForm).then((res) => {
             Message.success(res.data.msg);
-            console.log(res.data.msg);
+            const { jwt } = res.data;
+            //把token 存起来
+            localStorage.setItem("token", jwt);
+            this.$router.push("/home");
           });
-
-          //把token 存起来
-          //   localStorage.setItem();
-          this.$router.push("/home");
         }
       });
     },
@@ -140,6 +143,11 @@ export default {
 
 .submit_btn {
   width: 100%;
+}
+.tiparea {
+  text-align: right;
+  font-size: smaller;
+  color: #666;
 }
 </style>
 </style>

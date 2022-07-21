@@ -9,7 +9,7 @@ module.exports = defineConfig({
   runtimeCompiler: true, // 运行时版本是否需要编译
   productionSourceMap: true, // 是否在构建生产包时生成 sourceMap 文件，false将提高构建速度
   devServer: {
-    open: true,
+    open: true, //希望运行时打开浏览器
     host: "localhost",
     port: 8080,
     https: false,
