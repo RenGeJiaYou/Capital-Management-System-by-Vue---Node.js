@@ -1,10 +1,16 @@
 <template>
-  <div class="index">初始化页面</div>
+  <div>
+    <HeaderNav></HeaderNav>
+  </div>
 </template>
 
 <script>
+// @ is an alias to /src
+import HeaderNav from "@/components/HeaderNav.vue";
 export default {
-  name: "index",
-  component: {},
+  name: "home",
+  components: {
+    HeaderNav,
+  },
 };
 </script>

@@ -52,7 +52,7 @@
 <script>
 import axios from "axios";
 import { Message } from "element-ui";
-
+import jwt_decode from "jwt-decode";
 //登录界面
 export default {
   name: "login",
@@ -100,10 +100,23 @@ export default {
             const { jwt } = res.data;
             //把token 存起来
             localStorage.setItem("token", jwt);
-            this.$router.push("/home");
+            //解析jwt
+            const userInfo = jwt_decode(jwt);
+            //解析结果存储到 vuex 中
+            this.$store.dispatch("setAuthenticated", !this.isEmpty(userInfo));
+            this.$store.dispatch("setUser", userInfo);
+            this.$router.push("/index");
           });
         }
       });
+    },
+    isEmpty(value) {
+      return (
+        value === null ||
+        value === undefined ||
+        (typeof value == "object" && Object.keys(value).length === 0) ||
+        (typeof value == "string" && value.trim().length() === 0)
+      );
     },
   },
 };

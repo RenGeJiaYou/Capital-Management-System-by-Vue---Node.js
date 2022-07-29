@@ -19,6 +19,11 @@ axios.interceptors.request.use(
   config => {
     //在发送请求之前,加载动画(只是插个队,并不影响发送请求)
     startLoading();
+
+    //持有 tolen 时,添加请求报文首部内容
+    if (localStorage.getItem("token")) {
+      config.headers.Authorization = localStorage.getItem("token");
+    }
     return config;
   },
   err => {
@@ -38,6 +43,17 @@ axios.interceptors.response.use(
     // 超出 2xx 范围的状态码都会触发该函数。
     endLoading();
     Message.error(error.response.data);
+
+    //过期处理
+    const { status } = err.response;
+    if (status == 401) {
+      Message.error("token 过期失效,请重新登陆");
+      //清除旧 token
+      localStorage.removeItem("token");
+      //跳转回登录页面
+      this.$router.push("/login");
+    }
+
     return Promise.reject(error);
   }
 );

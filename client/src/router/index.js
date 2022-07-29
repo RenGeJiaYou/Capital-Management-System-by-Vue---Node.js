@@ -3,7 +3,6 @@ import VueRouter from "vue-router";
 import Index from "../views/index.vue";
 import Register from "../views/register.vue";
 import Login from "../views/login"; //加不加 .vue后缀都一样,以此为例
-import Home from "../views/home";
 import NotFoundPage from "../views/404.vue";
 
 Vue.use(VueRouter);
@@ -29,11 +28,6 @@ const routes = [
     component: Login,
   },
   {
-    path: "/home",
-    name: "home",
-    component: Home,
-  },
-  {
     path: "*", //* 表示未访问到文件
     name: "404",
     component: NotFoundPage,
@@ -44,6 +38,19 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+//路由守卫
+router.beforeEach((to, from, next) => {
+  const isToken = localStorage.getItem("token") ? true : false;
+
+  //放行无需审查的页面
+  if (to.path === "/login" || to.path === "/register") {
+    next();
+  } else {
+    //放行需审查,但持有 token 的页面;禁止需审查,且无 token 的页面
+    isToken ? next() : next("/login");
+  }
 });
 
 export default router;
