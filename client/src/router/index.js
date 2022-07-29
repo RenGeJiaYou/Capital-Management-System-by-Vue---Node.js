@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import Index from "../views/index.vue";
 import Register from "../views/register.vue";
 import Login from "../views/login"; //加不加 .vue后缀都一样,以此为例
+import Home from "../views/home";
+import InfoShow from "../views/infoshow";
 import NotFoundPage from "../views/404.vue";
 
 Vue.use(VueRouter);
@@ -16,6 +18,22 @@ const routes = [
     path: "/index",
     name: "index",
     component: Index,
+    children: [
+      {
+        path: "",
+        component: Home,
+      },
+      {
+        path: "/home",
+        name: "home",
+        component: Home,
+      },
+      {
+        path: "/infoshow",
+        name: "infoshow",
+        component: InfoShow,
+      },
+    ],
   },
   {
     path: "/register",

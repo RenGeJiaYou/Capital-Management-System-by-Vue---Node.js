@@ -55,7 +55,7 @@ export default {
       }
     },
     showInfoList() {
-      console.log("个人消息");
+      this.$router.push("infoshow");
     },
     logOut() {
       //清除token
