@@ -5,7 +5,7 @@ import Register from "../views/register.vue";
 import Login from "../views/login"; //加不加 .vue后缀都一样,以此为例
 import Home from "../views/home";
 import InfoShow from "../views/infoshow";
-import LeftMenu from "../components/LeftMenu";
+import FundList from "../views/fundlist";
 import NotFoundPage from "../views/404.vue";
 
 Vue.use(VueRouter);
@@ -20,6 +20,7 @@ const routes = [
     name: "index",
     component: Index,
     children: [
+      //index.vue 这个页面有若干**子页面**,点击左侧菜单栏时在 <router-view> 中切换
       {
         path: "", //进入到http://localhost:8080/index ,加载index.vue 的同时,也会加载home.vue
         component: Home,
@@ -34,6 +35,11 @@ const routes = [
         name: "infoshow",
         component: InfoShow,
       },
+      {
+        path: "/fundlist",
+        name: "fundlist",
+        component: FundList,
+      },
     ],
   },
   {
@@ -46,6 +52,7 @@ const routes = [
     name: "login",
     component: Login,
   },
+
   {
     path: "*", //* 表示未访问到文件
     name: "404",

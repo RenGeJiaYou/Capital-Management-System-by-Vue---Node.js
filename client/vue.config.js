@@ -19,7 +19,7 @@ module.exports = defineConfig({
     proxy: {
       // 配置跨域
       "/api": {
-        target: "http://localhost:3000/api/", //"/api" 将在发送请求时 替换为 target 值
+        target: "http://localhost:3000/api/", //    "/api" 将在发送请求时 替换为 target 值
         ws: true,
         changOrigin: true, //允许跨域
         pathRewrite: {
