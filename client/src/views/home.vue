@@ -1,4 +1,5 @@
 <template>
+  <!--index 页面中点击首页的部分-->
   <div class="home">
     <div class="container">
       <h1 class="title">资金管理系统</h1>
