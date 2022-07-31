@@ -20,10 +20,16 @@
           <el-submenu index="2">
             <template slot="title">
               <i class="fa-solid fa-wallet"></i>
-              <span slot="title" class="menu-title">资金管理</span>
+              <span
+                slot="title"
+                class="menu-title"
+              >资金管理</span>
             </template>
-            <!--为了让<router-link> 内的元素点起来像<el-menu-item> 而不是一个普通超链接,设置 tag-->
-            <router-link to="/fundlist" tag="el-menu-item">
+            <!--为了让<router-link> 内的元素点起来像<el-menu-item> 而不是一个普通超链接,设置  tag-->
+            <router-link
+              to="/fundlist"
+              tag="el-menu-item"
+            >
               <el-menu-item index="2-1">
                 <i class="fa-solid fa-money-bill-transfer"></i>
                 资金流水
@@ -36,7 +42,10 @@
               <i class="fa-solid fa-circle-info"></i>
               <span class="menu-title">信息管理</span>
             </template>
-            <router-link to="/infoshow" tag="el-menu-item">
+            <router-link
+              to="/infoshow"
+              tag="el-menu-item"
+            >
               <el-menu-item index="3-1">
                 <i class="fa-solid fa-person"></i>
                 个人信息

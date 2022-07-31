@@ -33,7 +33,7 @@ export default {
 .rightContainer {
   position: relative;
   margin-left: auto;
-  width: 81%; /*设置左侧菜单width为20% */
+  width: 80%; /*设置左侧菜单width为20% */
   height: 100%;
   overflow: visible;
 }
