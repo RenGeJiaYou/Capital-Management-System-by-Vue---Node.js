@@ -29,6 +29,7 @@
         show-header
         :header-cell-style="textCenter"
         :cell-style="textCenter"
+        height="500px"
       >
         <!--序号-->
         <el-table-column
@@ -123,7 +124,11 @@
       </el-table>
     </div>
 
-    <Dialog :dialog="dialog"></Dialog>
+    <Dialog
+      :dialog="dialog"
+      @update="getProfile"
+      :formData="formData"
+    ></Dialog>
   </div>
 </template>
 
@@ -136,6 +141,18 @@ export default {
       tableData: [], //保存全部数据
       dialog: {
         show: false,
+        title: "", //切换 添加/修改
+        option: "edit",
+      },
+      //将原来位于Dialog.vue 的 formData 移到父组件中。以期完成编辑功能。因为编辑时，待编辑的数据来自父组件，交由子组件 Dialog 展示。
+      formData: {
+        ieType: "",
+        ieDescribe: "",
+        income: "",
+        expend: "",
+        cash: "",
+        remark: "",
+        id: "",
       },
     };
   },
@@ -181,14 +198,16 @@ export default {
       return "text-align:center";
     },
     handleEdit(index, row) {
-      console.log(index, row);
+      this.dialog.title = "编辑资金信息";
+      this.dialog.show = true;
+      console.log(this.dialog);
     },
     handleDelete(index, row) {
       console.log(index, row);
     },
     handleAdd() {
+      this.dialog.title = "添加资金信息";
       this.dialog.show = true;
-      console.log(this.dialog.show);
     },
   },
 };
