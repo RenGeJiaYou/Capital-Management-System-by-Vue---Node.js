@@ -18,7 +18,8 @@
       </el-form>
     </div>
     <!--表格区-->
-    <div class="tableContainer">
+    <div>
+      <!--表格-->
       <el-table
         v-if="tableData.length>0"
         :data="tableData"
@@ -122,8 +123,25 @@
           </template>
         </el-table-column>
       </el-table>
+
+      <!--分页器-->
+      <el-row>
+        <el-col :span="24">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="paginations.currentPage"
+            :page-sizes="paginations.pageSizes"
+            :page-size="paginations.pageSize"
+            :layout="paginations.layout"
+            :total="paginations.total"
+            class="pagination"
+          ></el-pagination>
+        </el-col>
+      </el-row>
     </div>
 
+    <!--弹窗-->
     <Dialog
       :dialog="dialog"
       @update="getProfile"
@@ -138,7 +156,17 @@ export default {
   name: "fundlist",
   data() {
     return {
-      tableData: [], //保存全部数据
+      tableData: [], //保存 allTableData[]的部分数据,5/10条不等,是表格的绑定数据
+      allTableData: [], //保存全部数据
+      //分页器配置
+      paginations: {
+        currentPage: 1, //设置默认当前页
+        pageSizes: [5, 10, 15, 20], //可选的一页数量
+        pageSize: 5, //默认的一页数量
+        layout: "total, sizes, prev, pager, next, jumper", //分页器组件布局
+        total: 10, //不可在此处写this.tableData.length.因为 Vue 初始化该数据的时候 tableData 还未被分配内存,甚至不能称为一个 length=0 的空数组.
+        //但可写在<el-pagination>的属性里,因为组件被初始化前,数组已经通过created()被赋值
+      },
       dialog: {
         show: false,
         title: "", //切换 添加/修改
@@ -187,7 +215,9 @@ export default {
         .get("/api/profile/")
         .then((res) => {
           const { data } = res;
-          this.tableData = data;
+          this.allTableData = data;
+          //设置分页数据
+          this.setPaginations();
         })
         .catch((err) => {
           console.log("错误为:", err);
@@ -234,7 +264,6 @@ export default {
           });
         });
     },
-
     handleAdd() {
       this.dialog = {
         title: "添加资金信息",
@@ -253,6 +282,39 @@ export default {
         id: "",
       };
     },
+    handleSizeChange(pageSize) {
+      // handleSizeChange() 在条目数量变化时触发,形参是 所选定的每页数量
+      this.paginations.currentPage = 1; //切换每页条数后,返回第一页
+      this.paginations.pageSize = pageSize; //调整 paginations 参数
+      //重新设置展示的表格数据源
+      this.tableData = this.allTableData.filter((item, index) => {
+        return index < pageSize;
+      });
+    },
+    handleCurrentChange(currentPage) {
+      // handleCurrentChange() 在当前页数变化时触发,形参是 所选定的页码
+      // this.paginations.currentPage = currentPage;
+      let index = this.paginations.pageSize * (currentPage - 1); //当前页码的第一条数据
+      let offset = this.paginations.pageSize; //数量
+      let tempTableData = []; //临时装数据用
+      for (let i = index; i < index + offset; i++) {
+        if (this.allTableData[i]) {
+          tempTableData.push(this.allTableData[i]);
+        }
+      }
+      this.tableData = tempTableData;
+    },
+    //分页属性设置
+    setPaginations() {
+      this.paginations.total = this.allTableData.length; //提前将数组长度传给分页器
+      this.paginations.currentPage = 1; //切换后总是回到第一页
+      this.paginations.pageSize = 5; //默认的一页数量
+
+      //设置默认的分页数量
+      this.tableData = this.allTableData.filter((item, index) => {
+        return index < this.paginations.pageSize;
+      });
+    },
   },
 };
 </script>
@@ -260,7 +322,7 @@ export default {
 <style scoped>
 .table-container {
   width: 100%;
-  height: 100%;
+  height: auto;
   padding: 16px;
   box-sizing: border-box;
 }
@@ -269,6 +331,10 @@ export default {
   text-align: center;
 }
 .rightBtn {
+  float: right;
+}
+.pagination {
+  margin-top: 8px;
   float: right;
 }
 </style>

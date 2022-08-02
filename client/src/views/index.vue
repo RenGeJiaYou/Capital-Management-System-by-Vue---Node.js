@@ -35,6 +35,6 @@ export default {
   margin-left: auto;
   width: 80%; /*设置左侧菜单width为20% */
   height: 100%;
-  overflow: visible;
+  overflow: hidden;
 }
 </style>

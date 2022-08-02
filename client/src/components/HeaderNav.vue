@@ -2,21 +2,38 @@
   <div>
     <header class="head-nav">
       <el-row>
-        <el-col :span="6" class="logo-container">
-          <img src="../assets/logo.png" class="logo" alt="" />
+        <el-col
+          :span="6"
+          class="logo-container"
+        >
+          <img
+            src="../assets/logo.png"
+            class="logo"
+            alt
+          />
           <span class="title">在线账单·资金管理系统</span>
         </el-col>
 
-        <el-col :span="6" class="user">
+        <el-col
+          :span="6"
+          class="user"
+        >
           <div class="userinfo">
-            <img :src="user.avatar" class="avatar" alt="" />
+            <img
+              :src="user.avatar"
+              class="avatar"
+              alt
+            />
             <div class="welcome">
               <p class="name comename">欢迎</p>
               <p class="name avatarname">{{ user.name }}</p>
             </div>
             <span class="username">
               <!-- 下拉菜单 -->
-              <el-dropdown trigger="click" @command="setDialogInfo">
+              <el-dropdown
+                trigger="click"
+                @command="setDialogInfo"
+              >
                 <span class="el-dropdown-link">
                   <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
@@ -95,7 +112,7 @@ export default {
 <style scoped>
 .head-nav {
   width: 100%;
-  height: 10%x;
+  height: 10%;
   min-width: 600px;
   padding: 5px;
   background: #324057;
