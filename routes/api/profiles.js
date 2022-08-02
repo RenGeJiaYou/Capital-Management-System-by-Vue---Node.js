@@ -96,7 +96,7 @@ router.post(
   }
 );
 
-// $route   GET /api/profile/delete
+// $route   DELETE /api/profile/delete
 // @desc    删除收支信息
 // @access  private
 router.delete(

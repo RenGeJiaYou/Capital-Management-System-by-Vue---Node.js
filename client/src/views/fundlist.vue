@@ -108,13 +108,13 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
-              size="small"
+              size="mini"
               type="warning"
               icon="edit"
               @click="handleEdit(scope.$index, scope.row)"
             >编辑</el-button>
             <el-button
-              size="small"
+              size="mini"
               type="danger"
               icon="delete"
               @click="handleDelete(scope.$index, scope.row)"
@@ -198,16 +198,60 @@ export default {
       return "text-align:center";
     },
     handleEdit(index, row) {
-      this.dialog.title = "编辑资金信息";
-      this.dialog.show = true;
-      console.log(this.dialog);
+      this.dialog = {
+        title: "编辑资金信息",
+        show: true,
+        option: "edit",
+      };
+
+      //将待修改的数据补到表单里.JS 的解构赋值自动将同名属性添加到 formData 中,和属性在内部声明从次序无关.
+      (this.formData = {
+        ieType: row.ieType,
+        ieDescribe: row.ieDescribe,
+        income: row.income,
+        expend: row.expend,
+        cash: row.cash,
+        remark: row.remark,
+        id: row._id,
+      }),
+        console.log(this.dialog, "index: " + index, "row:" + row);
     },
     handleDelete(index, row) {
-      console.log(index, row);
+      this.$axios
+        .delete(`/api/profile/delete/${row._id}`)
+        .then((res) => {
+          this.$message({
+            message: "删除成功",
+            type: "success",
+          });
+          //刷新页面
+          this.getProfile();
+        })
+        .catch((err) => {
+          this.$message({
+            message: err,
+            type: "error",
+          });
+        });
     },
+
     handleAdd() {
-      this.dialog.title = "添加资金信息";
-      this.dialog.show = true;
+      this.dialog = {
+        title: "添加资金信息",
+        show: true,
+        option: "add",
+      };
+
+      //添加时给予一个空对象
+      this.formData = {
+        ieType: "",
+        ieDescribe: "",
+        income: "",
+        expend: "",
+        cash: "",
+        remark: "",
+        id: "",
+      };
     },
   },
 };

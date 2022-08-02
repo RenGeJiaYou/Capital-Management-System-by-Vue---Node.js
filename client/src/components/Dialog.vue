@@ -70,6 +70,7 @@
             <el-input
               v-model="formData.remark"
               clearable
+              type="textarea"
             ></el-input>
           </el-form-item>
 
@@ -120,13 +121,22 @@ export default {
       //已在声明时在参数列表中注入待添加的 formData 数据
       this.$refs[formData].validate((valid) => {
         if (valid) {
-          this.$axios.post("/api/profile/add", this.formData).then((res) => {
-            //$message 是 element 已注册的全局方法
-            this.$message({
-              message: "添加成功",
-              type: "success",
+          const url =
+            this.dialog.option === "add" ? `add` : `update/${this.formData.id}`;
+          this.$axios
+            .post(`/api/profile/` + url, this.formData)
+            .then((res) => {
+              //$message 是 element 已注册的全局方法
+              this.$message({
+                message: this.dialog.option === "add" ? "添加成功" : "编辑成功",
+                type: "success",
+              });
+            })
+            .catch((err) => {
+              const errInfo =
+                this.dialog.option === "add" ? "添加出错: " : "编辑出错: ";
+              console.log(errInfo, err);
             });
-          });
 
           //props 中的属性可以当作 data(){} 中的数据来对待
           this.dialog.show = false;

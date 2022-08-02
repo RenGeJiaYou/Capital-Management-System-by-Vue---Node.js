@@ -70,7 +70,7 @@ router.post("/login", (req, res) => {
             avatar: user.avatar,
             identity: user.identity,
           };
-          jwt.sign(rule, key, { expiresIn: 8 * 60 * 60 }, (err, token) => {
+          jwt.sign(rule, key, { expiresIn: 7 * 24 * 60 * 60 }, (err, token) => {
             if (err) throw err;
             res.json({ msg: "登陆成功", jwt: "Bearer " + token });
           });
