@@ -56,7 +56,7 @@
         show-header
         :header-cell-style="textCenter"
         :cell-style="textCenter"
-        height="500px"
+        max-height="500px"
       >
         <!--序号-->
         <el-table-column
