@@ -1,5 +1,5 @@
 {
-  "name": "money-management-system",
+  "name": "capital-management-system",
   "version": "1.0.0",
   "description": "一个基于 Vue + ElementUI + Experss.js + MongoDB 的资金管理系统,目的是初步掌握 Vue 的工程实践。",
   "main": "index.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RenGeJiaYou/Money-Management-System-by-Vue-Node.js.git"
+    "url": "git+https://github.com/RenGeJiaYou/Capital-Management-System-by-Vue-Node.js.git"
   },
   "keywords": [
     "Vue",
@@ -23,9 +23,9 @@
   "author": "Shi JiaJun",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/RenGeJiaYou/Money-Management-System-by-Vue-Node.js/issues"
+    "url": "https://github.com/RenGeJiaYou/Capital-Management-System-by-Vue-Node.js/issues"
   },
-  "homepage": "https://github.com/RenGeJiaYou/Money-Management-System-by-Vue-Node.js#readme",
+  "homepage": "https://github.com/RenGeJiaYou/Capital-Management-System-by-Vue-Node.js#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "concurrently": "^7.2.2",

@@ -14,6 +14,7 @@ export default new Vuex.Store({
     user: {}, //存储jwt解析出的用户信息
   },
   //getters 和 vue 的 computed 属性相似,即返回一个**处理后的**数据.且数据不改变时,多次调用都只读取第一次处理后的缓存,而不是重新调用函数.
+  //getters 内定义的函数都有一个 state 参数
   getters: {
     isAuth: state => state.isAuth,
     user: state => state.user,
