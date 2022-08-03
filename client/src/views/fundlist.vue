@@ -6,12 +6,38 @@
       <el-form
         :inline="true"
         ref="add_data"
+        :model="searchData"
       >
+        <el-form-item label="按时间筛选">
+          <el-date-picker
+            v-model="searchData.startTime"
+            type="datetime"
+            placeholder="选择开始时间"
+            style="margin-right:15px"
+          ></el-date-picker>
+          <el-date-picker
+            v-model="searchData.endTime"
+            type="datetime"
+            placeholder="选择结束时间"
+          ></el-date-picker>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button
+            type="primary"
+            size="small"
+            icon="search"
+            round
+            @click="handleSearch()"
+          >筛选</el-button>
+        </el-form-item>
+
         <el-form-item class="rightBtn">
           <el-button
             type="primary"
             size="small"
             icon="view"
+            v-if="user.identity==='manager'"
             @click="handleAdd()"
           >添加</el-button>
         </el-form-item>
@@ -106,7 +132,10 @@
           width="200%"
         ></el-table-column>
 
-        <el-table-column label="操作">
+        <el-table-column
+          label="操作"
+          v-if="user.identity==='manager'"
+        >
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -156,8 +185,16 @@ export default {
   name: "fundlist",
   data() {
     return {
+      searchData: {
+        //(父)  :model  <form>绑定 JS对象
+        //(子)  v-model <item>绑定 JS对象的字段
+        startTime: "", //Date 对象的空值可以是""
+        endTime: "",
+      },
+
       tableData: [], //保存 allTableData[]的部分数据,5/10条不等,是表格的绑定数据
       allTableData: [], //保存全部数据
+      filterTableData: [], //筛选数据容器
       //分页器配置
       paginations: {
         currentPage: 1, //设置默认当前页
@@ -209,6 +246,13 @@ export default {
       );
     },
   },
+  computed: {
+    //从vuex 中获取的数据只能在computed 中调用
+    // computed 的 函数可当作data(){} 中的同名数据
+    user() {
+      return this.$store.getters.user;
+    },
+  },
   methods: {
     getProfile() {
       this.$axios
@@ -216,6 +260,7 @@ export default {
         .then((res) => {
           const { data } = res;
           this.allTableData = data;
+          this.filterTableData = data; //filterTableData[]拥有全量数据,筛选操作后导入allTable[]
           //设置分页数据
           this.setPaginations();
         })
@@ -314,6 +359,30 @@ export default {
       this.tableData = this.allTableData.filter((item, index) => {
         return index < this.paginations.pageSize;
       });
+    },
+
+    //筛选功能
+    handleSearch() {
+      if (!this.searchData.startTime || !this.searchData.endTime) {
+        this.$message({
+          message: "时间范围不能为空!",
+          type: "warning",
+        });
+        this.getProfile();
+        return;
+      }
+
+      const startTime = this.searchData.startTime.getTime();
+      const endTime = this.searchData.endTime.getTime();
+
+      this.allTableData = this.filterTableData.filter((item) => {
+        // filter() 对每个元素调用一次回调函数,返回值是一个 bool 表达式
+        let date = new Date(item.date);
+        let time = date.getTime();
+        return time >= startTime && time <= endTime;
+      });
+
+      this.setPaginations();
     },
   },
 };
